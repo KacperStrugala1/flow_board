@@ -1,8 +1,9 @@
-from django.http import HttpResponse
+from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Task
+from .serializers import TaskSerializer
 
 class HomeView(View):
     template_name = "home.html"
@@ -25,4 +26,11 @@ class TaskView(View):
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
         
+        
         return render(request, self.template_name, {"task":task})
+    
+class HomeRestView(viewsets.ModelViewSet):
+
+    queryset = Task.objects.all().order_by("-created_at")
+    serializer_class = TaskSerializer
+    
