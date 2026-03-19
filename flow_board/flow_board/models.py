@@ -4,6 +4,7 @@ class Status(models.TextChoices):
     STARTED = "S", "STARTED"
     PROGRESS = "P", "IN PROGRESS"
     DONE = "D", "DONE"
+    OSBOLETE = "O", "OBSOLETE"
     
 
 class Task(models.Model):
