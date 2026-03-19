@@ -3,18 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <title>Home</title>
 </head>
 <body>
-    <h3>Task</h3>
-   
+    <div class="column is-half is-offset-one-quarter">
+        <div class="box">
+    <h3 class="title has-text-centered">Task</h3>
+
     <p><strong>Task name: </strong>{{task.name}}</p>
     <p><strong>Description</strong></p>
     <p>{{task.description}}</p>
     <p><strong>Category: </strong>{{task.category}}</p>
-    <p><strong>Status: </strong>{{task.status}}</p>
-
-
-
+    <p><strong>Status: </strong>{{task.get_status_display}}</p>
+    <form method="POST" action="{% url 'task_view' task.id %}">
+        {%csrf_token%}
+    <label>Change status:</label>
+            <select name="statuses">
+              <option value="">--Please choose an option--</option>
+              <option value="S">Started</option>
+              <option value="P">In Progress</option>
+              <option value="D">Done</option>
+              <option value="O">Obsolete</option>
+            </select><br>    
+    <button class="button is-primary" type="submit">Update</button>
+    </form>
+    </div>
+    </div>
 </body>
 </html>
+
+
+
+
+     
+         
