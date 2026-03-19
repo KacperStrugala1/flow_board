@@ -4,26 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
 </head>
 <body>
-    <h2>Home View</h2>
-    <h3>Create Task</h3>
-    <form method="POST">
-        {%csrf_token%}
-        <input type="text" name="task_name" placeholder="task name"><br><br>
-        <input type="text" name="task_description" placeholder="description"><br><br>
-        <input type="text" name="task_category" placeholder="category"><br><br>
-        <button type="submit">Create</button>
-    </form>
-    <h3>Tasks</h3>
-    {%for task in tasks%}
-        <p><strong>Task name: </strong><a href="{% url 'task_view' task.id %}">{{task.name}}</a></p>
-        <p><strong>Description</strong></p>
-        <p>{{task.description}}</p>
-        <p><strong>Category: </strong>{{task.category}}</p>
-        <p><strong>Status: </strong>{{task.status}}</p>
-        <p>------------------------</p>
-    {%endfor%}
-    
+    <div class="column is-half is-offset-one-quarter">
+    <div class="box">
+        <h3 class="title has-text-centered">Create Task</h3>
+        <form method="POST">
+            {%csrf_token%}
+            <input class="input" type="text" name="task_name" placeholder="Task name" required><br><br>
+            <textarea class="textarea" name="task_description" placeholder="Description"></textarea><br><br>
+            <input class="input" type="text" name="task_category" placeholder="Category" required><br><br>
+            <button class="button is-success" type="submit">Create</button>
+        </form>
+    </div>
+    </div>
+    <h3 class=" title has-text-centered">Tasks</h3>
+    <main class="columns is-1">
+        <div class="column ">
+            <div class="box">
+            <h4 class="title is-4">Started</h4>
+            {% for task in tasks %}
+            {% if task.status == 'S' %}
+            <div>
+                <p><strong>Task name: </strong><a href="{% url 'task_view' task.id %}">{{ task.name }}</a></p>
+                <p><strong>Description</strong></p>
+                <p>{{ task.description }}</p>
+                <p><strong>Category: </strong>
+                    <span class="tag is-info"> {{ task.category }}</span> 
+                </p> 
+                <p><strong>Status: </strong><span class="tag is-light">{{ task.get_status_display }}</span></p>
+                <p>--------------------------------</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        </div>
+        <div class="column">
+        <div class="box">
+            <h4 class="title is-4">In Progress</h4>
+            {% for task in tasks %}
+            {% if task.status == 'P' %}
+            <div>
+                <p><strong>Task name: </strong><a href="{% url 'task_view' task.id %}">{{ task.name }}</a></p>
+                <p><strong>Description</strong></p>
+                <p>{{ task.description }}</p>
+                <p><strong>Category: </strong>
+                    <span class="tag is-info"> {{ task.category }}</span> 
+                </p> 
+                <p><strong>Status: </strong>
+                    <span class="tag is-info">{{ task.get_status_display }}</span></p>
+                <p>--------------------------------</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>  
+        </div>
+        <div class="column ">
+            <div class="box">
+            <h4 class="title is-4">Done</h4>
+            {% for task in tasks %}
+            {% if task.status == 'D' %}
+            <div>
+                <p><strong>Task name: </strong><a href="{% url 'task_view' task.id %}">{{ task.name }}</a></p>
+                <p><strong>Description</strong></p>
+                <p>{{ task.description }}</p>
+                <p><strong>Category: </strong>
+                    <span class="tag is-info"> {{ task.category }}</span> 
+                </p> 
+                <p><strong>Status: </strong>
+                    <span class="tag is-success">{{ task.get_status_display }}</span></p>
+                <p>--------------------------------</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+        <div class="column ">
+            <div class="box">
+            <h4 class="title is-4">Obsolete</h4>
+            {% for task in tasks %}
+            {% if task.status == 'O' %}
+            <div>
+                <p><strong>Task name: </strong><a href="{% url 'task_view' task.id %}">{{ task.name }}</a></p>
+                <p><strong>Description</strong></p>
+                <p>{{ task.description }}</p>
+                <p><strong>Category: </strong>
+                    <span class="tag is-info"> {{ task.category }}</span> 
+                </p> 
+                <p><strong>Status: </strong>
+                    <span class="tag is-dark">{{ task.get_status_display }}</span>
+                </p>
+                <p>--------------------------------</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    </main>
 </body>
 </html>
